@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    container_name: testerp_db
+    environment:
+      POSTGRES_USER: testerp
+      POSTGRES_PASSWORD: testerp
+      POSTGRES_DB: testerp
+    ports:
+      - "5432:5432"
+    volumes:
+      - testerp_pg:/var/lib/postgresql/data
+volumes:
+  testerp_pg:

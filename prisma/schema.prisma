@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  role      Role     @default(SALES)
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  SALES
+  FINANCE
+  READONLY
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  rfc       String?
+  email     String?
+  phone     String?
+  status    ClientStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  contacts  Contact[]
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  clientId  String
+  name      String
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
