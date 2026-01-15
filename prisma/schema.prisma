@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -14,27 +15,15 @@ model User {
   createdAt DateTime @default(now())
 }
 
-enum Role {
-  ADMIN
-  SALES
-  FINANCE
-  READONLY
-}
-
 model Client {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   name      String
   rfc       String?
   email     String?
   phone     String?
   status    ClientStatus @default(ACTIVE)
-  createdAt DateTime @default(now())
+  createdAt DateTime     @default(now())
   contacts  Contact[]
-}
-
-enum ClientStatus {
-  ACTIVE
-  INACTIVE
 }
 
 model Contact {
@@ -44,6 +33,17 @@ model Contact {
   email     String?
   phone     String?
   createdAt DateTime @default(now())
-
   client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  ADMIN
+  SALES
+  FINANCE
+  READONLY
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
 }
